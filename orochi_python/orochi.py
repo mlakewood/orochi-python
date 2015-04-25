@@ -1,11 +1,19 @@
 import requests
 import subprocess
 import json
+import os
 from time import sleep
 
 class Orochi(object):
 
-    def __init__(self, path, port):
+    def __init__(self, path=None, port=None):
+        if path == None:
+            jar_name = 'orochi-0.1.0.jar'
+            path = os.path.join(os.path.dirname(__file__), "binary/{}".format(jar_name))
+
+        if port == None:
+            port = '8080';
+
         self.path = path
         self.port = port
         self.orochi = None
