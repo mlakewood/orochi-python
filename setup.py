@@ -29,7 +29,7 @@ def find_version(*file_paths):
 
 setup(
     name='orochi-python',
-    version='0.1.1',
+    version='0.1.2',
     description='Python helper lib for Orochi',
     long_description=(read('README.rst')),
     url='http://github.com/mlakewood/orochi-python',
