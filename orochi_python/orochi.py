@@ -8,7 +8,7 @@ class Orochi(object):
 
     def __init__(self, path=None, port=None):
         if path == None:
-            jar_name = 'orochi-0.1.0.jar'
+            jar_name = 'orochi-0.1.1.jar'
             path = os.path.join(os.path.dirname(__file__), "binary/{}".format(jar_name))
 
         if port == None:
@@ -36,7 +36,26 @@ class Orochi(object):
                     break
         return self.orochi        
         
-    def add_proxy(self, name, backend, front_port, command):
+    def add_pass_through_proxy(self, name, backend, front_port, command):
+        typed_backend = {"type": "proxy",
+                         "payload": backend
+                         }
+
+        self._add_proxy(name, typed_backend, front_port, command)
+
+    def add_mock_proxy(self, name, backend, front_port, command):
+        typed_backend = {"type": "mock-request",
+                         "payload": backend
+                         }
+        self._add_proxy(name, typed_backend, front_port, command)
+
+    def add_web_hook_proxy(self, name, backend, front_port, command):
+        typed_backend = {"type": "web-hook",
+                         "payload": backend
+                         }
+        self._add_proxy(name, typed_backend, front_port, command)
+    
+    def _add_proxy(self, name, backend, front_port, command):
         request = {"name": name,
                    "backend": backend, 
                    "front-port": front_port,
@@ -50,7 +69,7 @@ class Orochi(object):
         if response.status_code == 200:
             data = json.loads(response.content)
             return data
-        return false
+        return False
                                 
     
     def shutdown_proxies(self):
